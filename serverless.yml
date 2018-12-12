@@ -1,0 +1,57 @@
+service: sls-devops-test
+
+provider:
+  name: aws
+  region: ca-central-1
+  runtime: nodejs8.10
+  stage: na
+  tags:
+    Department: Digital
+    Team: DevOps
+
+functions:
+  viewMessage:
+    handler: view-message/handler.viewMsg
+    description: View the message
+    memorySize: 128
+    timeout: 5
+    package:
+      include:
+        - view-message/**
+    tags:
+      Project: Serverless Deploy Tests view
+      Author: abarrett
+    events:
+      - http:
+          path: viewMsg
+          method: get
+  makeMessage:
+    handler: make-message/handler.mkMsg
+    description: Set the message
+    memorySize: 128
+    timeout: 5
+    package:
+      include:
+        - make-message/**
+    tags:
+      Project: Serverless Deploy Tests make
+      Author: abarrett
+    events:
+      - http:
+          path: makeMsg
+          method: get
+          request:
+            parameters:
+              querystrings:
+                set: false
+
+package:
+  exclude:
+    - ".**"
+    - ".git/**"
+    - "README.md"
+    - "serverless.yml"
+    - "view-message/**"
+    - "make-message/**"
+  excludeDevDependencies: true
+  individually: true
