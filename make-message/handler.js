@@ -1,5 +1,4 @@
 'use strict';
-
 module.exports.mkMsg = async ( event, context ) => {
   var theMsg = typeof event.queryStringParameters !== 'undefined' ? event.queryStringParameters.set : 'This is the default msg';
   return {
